@@ -1,6 +1,2 @@
-# 工程简介
-
-
-
-# 延伸阅读
-
+# MyBaijia
+Technology stack: SpringBoot+MyBatisPlus+Vue+Bootstap
