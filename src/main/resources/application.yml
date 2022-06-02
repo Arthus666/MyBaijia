@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: mybaijia
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: 123456
+    url: jdbc:mysql://localhost:3306/baijia?useUnicode=true&characterEncoding=utf8
+    username: root
+    type: com.alibaba.druid.pool.DruidDataSource
+  mvc:
+    view:
+      prefix: /admin/
+      suffix: .html
+
+server:
+  port: 8080
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:**/mapper/xml/*.xml

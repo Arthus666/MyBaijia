@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>中国诸子百家网</title>
+    <link rel="icon" href="image/moon.svg">
+    <link rel="stylesheet" href="bootstrap-4.6.1/css/bootstrap.min.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="bootstrap-4.6.1/js/bootstrap.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!--    <a class="navbar-brand" href="#">Navbar</a>-->
+    <img src="//s1.httpcn.com/m/public/hanchengh5/Content/images/zzbj/zhuzi_title.png" alt="">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="请输入关键字进行搜索" aria-label="搜索">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
+        </form>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <img src="//s1.httpcn.com/m/public/hanchengh5/Content/images/zzbj/baijia_title.png" alt="">
+    </div>
+</nav>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav" style="margin-left: 220px;font-size: large">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">首页 <span class="sr-only">(current)</span></a>
+            </li>
+            &nbsp;&nbsp;&nbsp;
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="https://baike.baidu.com/item/%E5%84%92%E5%AE%B6/945629" target="_blank" >
+                    儒家
+                </a>
+            </li>
+            &nbsp;&nbsp;&nbsp;
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="https://baike.baidu.com/item/%E9%81%93%E5%AE%B6/131309" target="_blank">
+                    道家
+                </a>
+            </li>
+            &nbsp;&nbsp;&nbsp;
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="https://baike.baidu.com/item/%E6%B3%95%E5%AE%B6/425255" target="_blank">
+                    法家
+                </a>
+            </li>
+            &nbsp;&nbsp;&nbsp;
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="https://baike.baidu.com/item/%E5%A2%A8%E5%AE%B6/131130" target="_blank">
+                    墨家
+                </a>
+            </li>
+            &nbsp;&nbsp;&nbsp;
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="https://baike.baidu.com/item/%E5%85%B5%E5%AE%B6/3423" target="_blank">
+                    兵家
+                </a>
+            </li>
+            &nbsp;&nbsp;&nbsp;
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="https://baike.baidu.com/item/%E5%90%8D%E5%AE%B6/3150648" target="_blank">
+                    名家
+                </a>
+            </li>
+            &nbsp;&nbsp;&nbsp;
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="https://baike.baidu.com/item/%E5%86%9C%E5%AE%B6/9238858" target="_blank">
+                    农家
+                </a>
+            </li>
+            &nbsp;&nbsp;&nbsp;
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="https://baike.baidu.com/item/%E5%8C%BB%E5%AE%B6/7331444" target="_blank">
+                    医家
+                </a>
+            </li>
+            &nbsp;&nbsp;&nbsp;
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="https://baike.baidu.com/item/%E6%9D%82%E5%AE%B6/805193" target="_blank">
+                    杂家
+                </a>
+            </li>
+            &nbsp;&nbsp;&nbsp;
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="https://baike.baidu.com/item/%E9%98%B4%E9%98%B3%E5%AE%B6/9488577" target="_blank">
+                    阴阳家
+                </a>
+            </li>
+            &nbsp;&nbsp;&nbsp;
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="https://baike.baidu.com/item/%E7%BA%B5%E6%A8%AA%E5%AE%B6/87776" target="_blank">
+                    纵横家
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="row" style="margin-left: 20px;margin-top: 25px;margin-right: 20px">
+
+    <div class="list-group col-md-3">
+        <button type="button" class="list-group-item list-group-item-action active" aria-current="true">
+            儒家-孔子
+        </button>
+        <button type="button" class="list-group-item list-group-item-action">道家-老子</button>
+        <button type="button" class="list-group-item list-group-item-action">墨家-墨子</button>
+        <button type="button" class="list-group-item list-group-item-action">道家-庄子</button>
+        <button type="button" class="list-group-item list-group-item-action">法家-管子</button>
+        <button type="button" class="list-group-item list-group-item-action">儒家-墨子</button>
+    </div>
+
+    <div id="carouselExampleCaptions" class="carousel slide col-md-6" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="image/BaiJia2.png" class="d-block w-100" alt="..." style="width: 300px;height: 300px">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>名士无冠，王者尊之</h5>
+                    <p>The king respect the hero without fame.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="image/BaiJia1.jpeg" class="d-block w-100" alt="..." style="width: 300px;height: 300px">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>飓风过岗，伏草惟存</h5>
+                    <p>Only the hidden grasses survive when the storm come.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="image/BaiJia3.jpeg" class="d-block w-100" alt="..." style="width: 300px;height: 300px">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>天之将明，其黑尤烈</h5>
+                    <p>Sky is darkest before the dawn.</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-target="#carouselExampleCaptions" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-target="#carouselExampleCaptions" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </button>
+    </div>
+
+    <div class="list-group col-md-3">
+        <button type="button" class="list-group-item list-group-item-action active" aria-current="true">
+            兵家-孙子
+        </button>
+        <button type="button" class="list-group-item list-group-item-action">名家-惠子</button>
+        <button type="button" class="list-group-item list-group-item-action">农家-许行</button>
+        <button type="button" class="list-group-item list-group-item-action">法家-申子</button>
+        <button type="button" class="list-group-item list-group-item-action">阴阳家-邹衍</button>
+        <button type="button" class="list-group-item list-group-item-action">纵横家-苏秦</button>
+    </div>
+
+</div>
+
+<br><br><br>
+
+<div id="Confirm" style="text-align: center" :hidden="hiddenUsername">欢迎用户-<span>{{username}}</span>-</div>
+
+<div class="row" >
+
+    <form id="login" :hidden="loginHidden" class="col-md-2" style="margin-bottom: 25px;margin-left: 20px">
+        <h3>登录</h3><br>
+        <div class="form-group">
+            <label for="exampleInputEmail1">用户名</label>
+            <input v-model="user.username" type="text" class="form-control" id="exampleInputEmail1"
+                   aria-describedby="emailHelp">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">密码</label>
+            <input v-model="user.password" type="password" class="form-control" id="exampleInputPassword1">
+        </div>
+        <button type="button" @click="submitLogin()" class="btn btn-primary">登录</button>
+    </form>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+    <div id="showVideo" :hidden="videoHidden" class="col-md-6 autoplay">
+        <video src="image/BaiJia4.mp4" autoplay="autoplay" controls style="width: 575px;height: 350px"></video>
+    </div>
+
+    <form id="register" :hidden="logonHidden" class="col-md-2" style="margin-bottom: 25px">
+        <h3>注册</h3><br>
+
+        <div class="form-group">
+            <label for="exampleInputPassword1">用户名</label>
+            <input v-model="user.username" type="text" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputPassword1">密码</label>
+            <input v-model="user.password" type="password" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputPassword1">确认密码</label>
+            <input v-model="user.confirm" type="password" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">出生日期</label>
+            <input v-model="user.born" type="date" class="form-control" aria-describedby="emailHelp">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">邮箱地址</label>
+            <input v-model="user.email" type="email" class="form-control" aria-describedby="emailHelp">
+        </div>
+        <button type="button" class="btn btn-primary" @click="submitForm()">注册</button>
+    </form>
+
+</div>
+
+<footer class="pt-4 my-md-5 pt-md-5 border-top">
+    <div class="row">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div class="col-12 col-md">
+            <img class="mb-2" src="image/moon.svg" alt="" width="24" height="24">
+            <small class="d-block mb-3 text-muted">© 2017-2022</small>
+        </div>
+        <div class="col-6 col-md">
+            <h5>Features</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="#">Cool stuff</a></li>
+                <li><a class="text-muted" href="#">Random feature</a></li>
+                <li><a class="text-muted" href="#">Team feature</a></li>
+            </ul>
+        </div>
+        <div class="col-6 col-md">
+            <h5>Resources</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted"
+                       href="https://baike.baidu.com/item/%E8%AF%B8%E5%AD%90%E7%99%BE%E5%AE%B6/16808?fr=aladdin">百度百科-诸子百家</a>
+                </li>
+                <li><a class="text-muted" href="http://gx.httpcn.com/zt/yinyangjia/">汉程网-诸子百家</a></li>
+                <li><a class="text-muted" href="https://haokan.baidu.com/v?pd=wisenatural&vid=12883388093332890369">好看视频-带你了解诸子百家</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-6 col-md">
+            <h5>About</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="#">Team</a></li>
+                <li><a class="text-muted" href="#">Locations</a></li>
+                <li><a class="text-muted" href="#">Privacy</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<script>
+
+    var Login = new Vue({
+        el: "#login",
+        data: {
+            user: {
+                username: "",
+                password: ""
+            },
+            loginHidden:false
+        },
+        methods: {
+            submitLogin: function () {
+                var that = this;
+
+                if (that.user.username == "" || that.user.password == "") {
+                    alert("用户名和密码不能为空！");
+                    return;
+                }
+
+                axios({
+                    method: "post",
+                    url: "/user/login",
+                    data: that.user
+                }).then(function (response) {
+                    if (response.data.data == 1) {
+                        alert("登录成功！");
+                        Confirm.showConfirm(Confirm);
+                    } else {
+                        alert("登录失败！")
+                    }
+                }).catch(function (error) {
+                    alert("登录出错！");
+                });
+            }
+        }
+    })
+
+    var Register = new Vue({
+        el: "#register",
+        data: {
+            user: {
+                username: "",
+                password: "",
+                confirm: "",
+                born: "",
+                email: "",
+            },
+            logonHidden:false
+        },
+        methods: {
+            submitForm: function () {
+                var that = this;
+
+                if (that.user.username == "" || that.user.password == "" || that.user.confirm == "" || that.user.born == "" || that.user.email == "") {
+                    alert("输入框不能为空！");
+                    return;
+                }
+                axios({
+                    method: "post",
+                    url: "/user/logon",
+                    data: that.user
+                }).then(function (response) {
+
+                    if (response.data.data == -1) {
+                        alert("确认密码不一致！");
+                    } else if (response.data.data == 0) {
+                        alert("用户已存在！");
+                    } else {
+                        alert("注册成功！");
+                    }
+
+                }).catch(function (error) {
+                    alert("注册出错！");
+                });
+            }
+        }
+    })
+
+    var Confirm = new Vue({
+        el: "#Confirm",
+        data: {
+            hiddenUsername: true,
+            username: ""
+        },
+        methods:{
+            showConfirm:function (e) {
+                var that = e;
+                axios({
+                    method: "post",
+                    url: "/user/getInfo"
+                }).then(function (response) {
+                    if (response.data.data == null) {
+                        return;
+                    } else {
+                        that.hidden = true;
+                        that.hiddenUsername = false;
+                        that.username = response.data.data;
+                        Login.loginHidden = true;
+                        Register.logonHidden = true;
+                        ShowVideo.videoHidden = true;
+                    }
+                }).catch(function (error) {
+                })
+            }
+        },
+        mounted: function () {
+            var that = this
+            axios({
+                method: "post",
+                url: "/user/getInfo"
+            }).then(function (response) {
+                if (response.data.data == null) {
+                    return;
+                } else {
+                    that.hidden = true;
+                    that.hiddenUsername = false;
+                    that.username = response.data.data;
+                    Login.loginHidden = true;
+                    Register.logonHidden = true;
+                    ShowVideo.videoHidden = true;
+                }
+            }).catch(function (error) {
+            })
+        }
+    })
+
+    var ShowVideo=new Vue({
+        el: "#showVideo",
+        data:{
+            videoHidden: false
+        }
+    })
+
+</script>
+
+</body>
+</html>
