@@ -4,55 +4,66 @@
     <link rel="icon" href="../image/moon.svg">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.88.1">
-    <title>Signin Template · Bootstrap v4.6</title>
-
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/sign-in/">
-
+    <title>后台登录</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../bootstrap-4.6.1/css/bootstrap.min.css" rel="stylesheet">
 
-
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
-
-
     <!-- Custom styles for this template -->
     <link href="./css/signin.css" rel="stylesheet">
+
+    <script src="../js/vue.js"></script>
+    <script src="../js/axios.min.js"></script>
+
 </head>
 <body class="text-center">
 
-<form class="form-signin">
+<form id="adminLogin" class="form-signin">
     <img class="mb-4" src="../image/night-cloudy.svg" alt="" width="35%" height="30%"><br>
     <h1 class="h3 mb-3 font-weight-normal">后台管理</h1><br>
-    <label for="inputEmail" class="sr-only">用户名</label>
-    <input type="email" id="inputEmail" class="form-control" placeholder="用户名" required autofocus>
+    <label for="inputUsername" class="sr-only">用户名</label>
+    <input v-model="admin.username" type="username" id="inputUsername" class="form-control" placeholder="用户名" required
+           autofocus>
     <label for="inputPassword" class="sr-only">密码</label>
-    <input type="password" id="inputPassword" class="form-control" placeholder="密码" required>
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" value="remember-me"> 同意协议
-        </label>
-    </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+    <input v-model="admin.password" type="password" id="inputPassword" class="form-control" placeholder="密码" required>
+    <button type="button" class="btn btn-lg btn-primary btn-block" @click="clickLogin()" placeholder="登录">登录</button>
 </form>
 
+<script>
+    var AdminLogin = new Vue({
+        el: "#adminLogin",
+        data: {
+            admin: {
+                username: "",
+                password: ""
+            }
+        },
+        methods: {
+            clickLogin: function () {
+                var that = this;
+
+                if (that.admin.username == "" || that.admin.password == "") {
+                    alert("用户名和密码不能为空！");
+                    return;
+                }
+
+                axios({
+                    method: "post",
+                    url: "/admin/adminLogin",
+                    data: that.admin
+                }).then(function (response) {
+                    if (response.data.data == 1) {
+                        alert("登录成功！");
+                        window.location.href = "/admin/dashboard.html";
+                    } else {
+                        alert("登录失败！");
+                    }
+                }).catch(function (error) {
+                    alert("登录出错！");
+                });
+            }
+        }
+    })
+</script>
 </body>
 </html>
