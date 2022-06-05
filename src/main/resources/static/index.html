@@ -104,15 +104,11 @@
 
 <div class="row" style="margin-left: 20px;margin-top: 25px;margin-right: 20px">
 
-    <div class="list-group col-md-3">
+    <div id="left" class="list-group col-md-3">
         <button type="button" class="list-group-item list-group-item-action active" aria-current="true">
-            儒家-孔子
+            百家经典
         </button>
-        <button type="button" class="list-group-item list-group-item-action">道家-老子</button>
-        <button type="button" class="list-group-item list-group-item-action">墨家-墨子</button>
-        <button type="button" class="list-group-item list-group-item-action">道家-庄子</button>
-        <button type="button" class="list-group-item list-group-item-action">法家-管子</button>
-        <button type="button" class="list-group-item list-group-item-action">儒家-墨子</button>
+        <button v-for="article in arr" type="button" class="list-group-item list-group-item-action">{{article.title}} —— {{article.content}}</button>
     </div>
 
     <div id="carouselExampleCaptions" class="carousel slide col-md-6" data-ride="carousel">
@@ -154,15 +150,11 @@
         </button>
     </div>
 
-    <div class="list-group col-md-3">
+    <div id="right" class="list-group col-md-3">
         <button type="button" class="list-group-item list-group-item-action active" aria-current="true">
-            兵家-孙子
+            百家文章
         </button>
-        <button type="button" class="list-group-item list-group-item-action">名家-惠子</button>
-        <button type="button" class="list-group-item list-group-item-action">农家-许行</button>
-        <button type="button" class="list-group-item list-group-item-action">法家-申子</button>
-        <button type="button" class="list-group-item list-group-item-action">阴阳家-邹衍</button>
-        <button type="button" class="list-group-item list-group-item-action">纵横家-苏秦</button>
+        <button v-for="article in arr" type="button" class="list-group-item list-group-item-action">{{article.title}} —— {{article.content}}</button>
     </div>
 
 </div>
@@ -339,6 +331,49 @@
         }
     })
 
+    var ArticlesLeft = new Vue({
+        el: "#left",
+        data:{
+            arr:[
+
+            ],
+        },
+        methods: {
+            getArticles: function () {
+                var that = this;
+                axios({
+                    method: "post",
+                    url: "/article/getArticles",
+                }).then(function (response) {
+                    ArticlesLeft.arr = response.data.data;
+                    console.log(ArticlesLeft.arr);
+                })
+            }
+        }
+    })
+
+    var ArticlesRight = new Vue({
+        el: "#right",
+        data:{
+            arr:[
+
+            ],
+        },
+        methods: {
+            getArticles: function () {
+                var that = this;
+                axios({
+                    method: "post",
+                    url: "/article/getArticles",
+                }).then(function (response) {
+                    ArticlesRight.arr = response.data.data;
+                    ArticlesRight.arr.slice(-5);
+                    console.log(ArticlesRight.arr);
+                })
+            }
+        }
+    })
+
     var Confirm = new Vue({
         el: "#Confirm",
         data: {
@@ -367,7 +402,9 @@
             }
         },
         mounted: function () {
-            var that = this
+            ArticlesLeft.getArticles();
+            ArticlesRight.getArticles();
+            var that = this;
             axios({
                 method: "post",
                 url: "/user/getInfo"

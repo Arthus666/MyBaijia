@@ -30,7 +30,8 @@ public class Article implements Serializable {
 
     private String title;
 
-    private String content;
+    private String person;
 
+    private String content;
 
 }

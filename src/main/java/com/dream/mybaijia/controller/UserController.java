@@ -2,6 +2,7 @@ package com.dream.mybaijia.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.dream.mybaijia.entity.Article;
 import com.dream.mybaijia.entity.JsonResult;
 import com.dream.mybaijia.entity.User;
 import com.dream.mybaijia.service.impl.UserServiceImpl;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * <p>
@@ -83,6 +85,38 @@ public class UserController {
             return new JsonResult<>(user.getUsername());
         }
 
+    }
+
+    @RequestMapping("/getUsers")
+    public JsonResult<List<User>> getUsers(HttpSession session) {
+        return new JsonResult<>(userService.list());
+    }
+
+    @RequestMapping("/addUser")
+    public JsonResult<String> addUsers(@RequestBody String jsonStr) {
+
+        JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+
+        String username = jsonObject.getString("username");
+        String password = jsonObject.getString("password");
+        String email = jsonObject.getString("email");
+        String born = jsonObject.getString("born");
+
+        userService.save(new User(0, username, password, email, born));
+
+        return new JsonResult<>("1");
+    }
+
+    @RequestMapping("/deleteUser")
+    public JsonResult<String> deleteUser(@RequestBody String jsonStr) {
+
+        JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+
+        String id = jsonObject.getString("id");
+
+        userService.removeById(id);
+
+        return new JsonResult<>("1");
     }
 
 }

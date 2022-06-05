@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ch">
+<html lang="ch" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="icon" href="../image/night-cloudy.svg">
     <meta charset="utf-8">
@@ -16,6 +16,52 @@
     <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="./css/flat-ui.min.css"/>
     <link rel="stylesheet" type="text/css" href="./css/jquery.nouislider.css">
+
+    <script src="./js/jquery.nouislider.js"></script>
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script>
+        $(function () {
+            $(".meun-item").click(function () {
+                $(".meun-item").removeClass("meun-item-active");
+                $(this).addClass("meun-item-active");
+                var itmeObj = $(".meun-item").find("img");
+                itmeObj.each(function () {
+                    var items = $(this).attr("src");
+                    items = items.replace("_grey.png", ".png");
+                    items = items.replace(".png", "_grey.png")
+                    $(this).attr("src", items);
+                });
+                var attrObj = $(this).find("img").attr("src");
+                ;
+                attrObj = attrObj.replace("_grey.png", ".png");
+                $(this).find("img").attr("src", attrObj);
+            });
+            $("#topAD").click(function () {
+                $("#topA").toggleClass(" glyphicon-triangle-right");
+                $("#topA").toggleClass(" glyphicon-triangle-bottom");
+            });
+            $("#topBD").click(function () {
+                $("#topB").toggleClass(" glyphicon-triangle-right");
+                $("#topB").toggleClass(" glyphicon-triangle-bottom");
+            });
+            $("#topCD").click(function () {
+                $("#topC").toggleClass(" glyphicon-triangle-right");
+                $("#topC").toggleClass(" glyphicon-triangle-bottom");
+            });
+            $(".toggle-btn").click(function () {
+                $("#leftMeun").toggleClass("show");
+                $("#rightContent").toggleClass("pd0px");
+            })
+        })
+    </script>
+    <script src="../js/vue.js"></script>
+    <script src="../js/axios.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="./js/html5shiv.min.js"></script>
+    <script src="./js/respond.min.js"></script>
+    <![endif]-->
+
 </head>
 
 <body>
@@ -23,23 +69,26 @@
     <!-- 左侧菜单栏目块 -->
     <div class="leftMeun" id="leftMeun">
         <div id="logoDiv">
-            <p id="logoP"><img id="logo" alt="后台管理" src="../image/moon.svg"><span>后台管理</span></p>
+            <p id="logoP"><img id="logo" alt="后台管理" src="../image/moon.svg"><span
+                    style="font-size: xx-large">诸子百家</span></p>
+        </div>
+        <br><br>
+        <div id="adminInfo">
+            <p>管理员：<span>{{adminName}}</span></p>
+            <p>邮箱：<span>{{adminEmail}}</span></p>
+            <p @click="exitLogin()" style="font-size: small"><a>退出登录</a></p>
         </div>
         <br>
-        <div id="personInfor">
-            <p>管理员：Harry</p>
-            <p>邮箱：Harry@qq.com</p>
-            <p><a>退出登录</a></p>
-        </div>
-        <br>
-        <div class="meun-title">中国诸子百家网</div>
+        <div class="meun-title">后台管理</div>
         <br>
 
-        <div class="meun-item" href="#char" aria-controls="char" role="tab" data-toggle="tab"><img
+        <div id="resource" @click="getAllArticles()" class="meun-item" href="#char" aria-controls="char" role="tab"
+             data-toggle="tab"><img
                 src="images/icon_user_grey.png">资源管理
         </div>
         <br>
-        <div class="meun-item" href="#user" aria-controls="user" role="tab" data-toggle="tab"><img
+        <div id="userControl" @click="getAllUser()" class="meun-item" href="#user" aria-controls="user" role="tab"
+             data-toggle="tab"><img
                 src="images/icon_chara_grey.png">用户管理
         </div>
         <br>
@@ -58,61 +107,52 @@
             <div role="tabpanel" class="tab-pane" id="char">
 
                 <div class="check-div">
-                    <button class="btn btn-yellow btn-xs" data-toggle="modal" data-target="#addChar">添加权限</button>
+                    <button class="btn btn-yellow btn-xs" data-toggle="modal" data-target="#addArticles">添加文章</button>
                 </div>
+                <!--文章展示-->
                 <div class="data-div">
                     <div class="row tableHeader">
                         <div class="col-xs-1 ">
-                            编码
+                            ID
                         </div>
-                        <div class="col-xs-4">
-                            权限名
+                        <div class="col-xs-2">
+                            标题
+                        </div>
+                        <div class="col-xs-2">
+                            人物
                         </div>
                         <div class="col-xs-5">
-                            描述
+                            内容
                         </div>
                         <div class="col-xs-2">
                             操作
                         </div>
                     </div>
-                    <div class="tablebody">
-                        <div class="row">
+                    <div id="articleList" class="tablebody">
+                        <div class="row" v-for="(article,index) in arr">
                             <div class="col-xs-1 ">
-                                1
-                            </div>
-                            <div class="col-xs-4">
-                                </span><span>管理员</span>
-                            </div>
-                            <div class="col-xs-5">
-                                管理员具有超年权限
+                                {{index+1}}
                             </div>
                             <div class="col-xs-2">
-                                <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#changeChar">
+                                <span>{{article.title}}</span>
+                            </div>
+                            <div class="col-xs-2">
+                                {{article.person}}
+                            </div>
+                            <div class="col-xs-5">
+                                {{article.content}}
+                            </div>
+                            <div class="col-xs-2">
+                                <button @click="updateId(article.id)" class="btn btn-success btn-xs" data-toggle="modal"
+                                        data-target="#updateArticle">
                                     修改
                                 </button>
-                                <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteChar">删除
-                                </button>
+                                <button @click="deleteArticle(article.id)" class="btn btn-danger btn-xs">删除</button>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-1 ">
-                                2
-                            </div>
-                            <div class="col-xs-4">
-                                <span>游客</span>
-                            </div>
-                            <div class="col-xs-5">
-                                可以查看信息
-                            </div>
-                            <div class="col-xs-2">
-                                <button class="btn btn-success btn-xs">修改</button>
-                                <button class="btn btn-danger btn-xs">删除</button>
-                            </div>
-                        </div>
-
                     </div>
-
                 </div>
+
                 <!--页码块-->
                 <footer class="footer">
                     <ul class="pagination">
@@ -123,16 +163,11 @@
                                 <option>3</option>
                                 <option>4</option>
                                 <option>5</option>
-                                <option>6</option>
-                                <option>7</option>
-                                <option>8</option>
-                                <option>9</option>
-                                <option>10</option>
                             </select>
                             页
                         </li>
                         <li class="gray">
-                            共20页
+                            共5页
                         </li>
                         <li>
                             <i class="glyphicon glyphicon-menu-left">
@@ -144,45 +179,52 @@
                         </li>
                     </ul>
                 </footer>
-                <!--增加权限弹出窗口-->
-                <div class="modal fade" id="addChar" role="dialog" aria-labelledby="gridSystemModalLabel">
+                <!--增加文章弹出窗口-->
+                <div id="addArticles" class="modal fade" id="addChar" role="dialog"
+                     aria-labelledby="gridSystemModalLabel">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                         aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="gridSystemModalLabel">添加权限</h4>
+                                <h4 class="modal-title" id="gridSystemModalLabel1">添加文章</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="container-fluid">
                                     <form class="form-horizontal">
                                         <div class="form-group ">
-                                            <label for="sName" class="col-xs-3 control-label">权限名：</label>
+                                            <label for="sName1" class="col-xs-3 control-label">标题：</label>
                                             <div class="col-xs-6 ">
-                                                <input type="email" class="form-control input-sm duiqi" id="sName"
+                                                <input v-model="article.title" type="email"
+                                                       class="form-control input-sm duiqi" id="sName1"
                                                        placeholder="">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="sLink" class="col-xs-3 control-label">描述：</label>
-                                            <div class="col-xs-6 ">
-                                                <textarea class="form-control input-sm duiqi"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="sOrd" class="col-xs-3 control-label">系统资源：</label>
+                                            <label for="sOrd1" class="col-xs-3 control-label">人物：</label>
                                             <div class="col-xs-6">
-                                                <input type="" class="form-control input-sm duiqi" id="sOrd"
+                                                <input v-model="article.person" type=""
+                                                       class="form-control input-sm duiqi" id="sOrd1"
                                                        placeholder="">
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="sLink1" class="col-xs-3 control-label">内容：</label>
+                                            <div class="col-xs-6 ">
+                                                <textarea id="sLink1" v-model="article.content"
+                                                          class="form-control input-sm duiqi"></textarea>
+                                            </div>
+                                        </div>
+
 
                                     </form>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取 消</button>
-                                <button type="button" class="btn btn-xs btn-green">保 存</button>
+                                <button @click="addArticle()" type="button" class="btn btn-xs btn-green"
+                                        data-dismiss="modal">保 存
+                                </button>
                             </div>
                         </div>
                         <!-- /.modal-content -->
@@ -191,45 +233,50 @@
                 </div>
                 <!-- /.modal -->
 
-                <!--修改权限弹出窗口-->
-                <div class="modal fade" id="changeChar" role="dialog" aria-labelledby="gridSystemModalLabel">
+                <!--修改文章弹出窗口-->
+                <div id="updateArticle" class="modal fade" id="updateChar" role="dialog"
+                     aria-labelledby="gridSystemModalLabel">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                         aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="gridSystemModalLabel">修改权限</h4>
+                                <h4 class="modal-title" id="gridSystemModalLabel2">修改文章</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="container-fluid">
                                     <form class="form-horizontal">
                                         <div class="form-group ">
-                                            <label for="sName" class="col-xs-3 control-label">权限名：</label>
+                                            <label for="sName2" class="col-xs-3 control-label">标题：</label>
                                             <div class="col-xs-6 ">
-                                                <input type="email" class="form-control input-sm duiqi" id="sName"
+                                                <input v-model="update.title" type="email"
+                                                       class="form-control input-sm duiqi" id="sName2"
                                                        placeholder="">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="sLink" class="col-xs-3 control-label">描述：</label>
-                                            <div class="col-xs-6 ">
-                                                <textarea class="form-control input-sm duiqi"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="sOrd" class="col-xs-3 control-label">系统资源：</label>
+                                            <label for="sOrd2" class="col-xs-3 control-label">人物：</label>
                                             <div class="col-xs-6">
-                                                <input type="" class="form-control input-sm duiqi" id="sOrd"
+                                                <input v-model="update.person" type=""
+                                                       class="form-control input-sm duiqi" id="sOrd2"
                                                        placeholder="">
                                             </div>
                                         </div>
-
+                                        <div class="form-group">
+                                            <label for="sLink3" class="col-xs-3 control-label">内容：</label>
+                                            <div class="col-xs-6 ">
+                                                <textarea id="sLink3" v-model="update.content"
+                                                          class="form-control input-sm duiqi"></textarea>
+                                            </div>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取 消</button>
-                                <button type="button" class="btn btn-xs btn-green">保 存</button>
+                                <button @click="updateTheArticle()" type="button" class="btn btn-xs btn-green"
+                                        data-dismiss="modal">保 存
+                                </button>
                             </div>
                         </div>
                         <!-- /.modal-content -->
@@ -237,32 +284,6 @@
                     <!-- /.modal-dialog -->
                 </div>
                 <!-- /.modal -->
-
-                <!--弹出删除权限警告窗口-->
-                <div class="modal fade" id="deleteChar" role="dialog" aria-labelledby="gridSystemModalLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                        aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="gridSystemModalLabel">提示</h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="container-fluid">
-                                    确定要删除该权限？删除后不可恢复！
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取 消</button>
-                                <button type="button" class="btn btn-xs btn-danger">保 存</button>
-                            </div>
-                        </div>
-                        <!-- /.modal-content -->
-                    </div>
-                    <!-- /.modal-dialog -->
-                </div>
-                <!-- /.modal -->
-
             </div>
             <!--用户管理模块-->
             <div role="tabpanel" class="tab-pane" id="user">
@@ -274,62 +295,45 @@
                         <input type="text" class="form-control input-sm" placeholder="输入文字搜索">
                         <button class="btn btn-white btn-xs ">查 询</button>
                     </div>
-                    <div class="col-lg-3 col-lg-offset-2 col-xs-4" style=" padding-right: 40px;text-align: right;">
-                        <label for="paixu">排序:&nbsp;</label>
-                        <select class=" form-control">
-                            <option>地区</option>
-                            <option>地区</option>
-                            <option>班期</option>
-                            <option>性别</option>
-                            <option>年龄</option>
-                            <option>份数</option>
-                        </select>
-                    </div>
                 </div>
+                <!--用户展示-->
                 <div class="data-div">
                     <div class="row tableHeader">
-                        <div class="col-xs-2 ">
+                        <div class="col-xs-1 ">
+                            ID
+                        </div>
+                        <div class="col-xs-2">
                             用户名
                         </div>
-                        <div class="col-xs-2">
-                            地区
+                        <div class="col-xs-3">
+                            邮箱
                         </div>
-                        <div class="col-xs-2">
-                            真实姓名
-                        </div>
-                        <div class="col-xs-2">
-                            电话
-                        </div>
-                        <div class="col-xs-2">
-                            状态
+                        <div class="col-xs-4">
+                            出生日期
                         </div>
                         <div class="col-xs-2">
                             操作
                         </div>
                     </div>
-                    <div class="tablebody">
-
-                        <div class="row">
-                            <div class="col-xs-2 ">
-                                goodmoning
+                    <div id="showUsers" class="tablebody">
+                        <div class="row" v-for="(users,index) in arr">
+                            <div class="col-xs-1">
+                                {{index+1}}
                             </div>
                             <div class="col-xs-2">
-                                国际关系地区
+                                {{users.username}}
                             </div>
-                            <div class="col-xs-2">
-                                李豆豆
+                            <div class="col-xs-3">
+                                {{users.email}}
                             </div>
-                            <div class="col-xs-2">
-                                13688889999
-                            </div>
-                            <div class="col-xs-2">
-                                状态
+                            <div class="col-xs-4">
+                                {{users.bornTime}}
                             </div>
                             <div class="col-xs-2">
                                 <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#reviseUser">
                                     修改
                                 </button>
-                                <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteUser">删除
+                                <button @click="deleteUser(users.id)" class="btn btn-danger btn-xs" data-toggle="modal">删除
                                 </button>
                             </div>
                         </div>
@@ -347,16 +351,11 @@
                                 <option>3</option>
                                 <option>4</option>
                                 <option>5</option>
-                                <option>6</option>
-                                <option>7</option>
-                                <option>8</option>
-                                <option>9</option>
-                                <option>10</option>
                             </select>
                             页
                         </li>
                         <li class="gray">
-                            共20页
+                            共5页
                         </li>
                         <li>
                             <i class="glyphicon glyphicon-menu-left">
@@ -370,182 +369,58 @@
                 </footer>
 
                 <!--弹出添加用户窗口-->
-                <div class="modal fade" id="addUser" role="dialog" aria-labelledby="gridSystemModalLabel">
+                <div id="addUser" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                         aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="gridSystemModalLabel">添加用户</h4>
+                                <h4 class="modal-title" id="gridSystemModalLabel3">添加用户</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="container-fluid">
                                     <form class="form-horizontal">
                                         <div class="form-group ">
-                                            <label for="sName" class="col-xs-3 control-label">用户名：</label>
+                                            <label for="sName3" class="col-xs-3 control-label">用户名：</label>
                                             <div class="col-xs-8 ">
-                                                <input type="email" class="form-control input-sm duiqi" id="sName"
+                                                <input v-model="user.username" class="form-control input-sm duiqi"
+                                                       id="sName3"
                                                        placeholder="">
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="sLink" class="col-xs-3 control-label">真实姓名：</label>
-                                            <div class="col-xs-8 ">
-                                                <input type="" class="form-control input-sm duiqi" id="sLink"
-                                                       placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="sOrd" class="col-xs-3 control-label">电子邮箱：</label>
-                                            <div class="col-xs-8">
-                                                <input type="" class="form-control input-sm duiqi" id="sOrd"
-                                                       placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="sKnot" class="col-xs-3 control-label">电话：</label>
-                                            <div class="col-xs-8">
-                                                <input type="" class="form-control input-sm duiqi" id="sKnot"
-                                                       placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="sKnot" class="col-xs-3 control-label">地区：</label>
-                                            <div class="col-xs-8">
-                                                <select class=" form-control select-duiqi">
-                                                    <option value="">国际关系地区</option>
-                                                    <option value="">北京大学</option>
-                                                    <option value="">天津大学</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="sKnot" class="col-xs-3 control-label">权限：</label>
-                                            <div class="col-xs-8">
-                                                <select class=" form-control select-duiqi">
-                                                    <option value="">管理员</option>
-                                                    <option value="">普通用户</option>
-                                                    <option value="">游客</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="situation" class="col-xs-3 control-label">状态：</label>
-                                            <div class="col-xs-8">
-                                                <label class="control-label" for="anniu">
-                                                    <input type="radio" name="situation" id="normal">正常</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <label class="control-label" for="meun">
-                                                    <input type="radio" name="situation" id="forbid"> 禁用</label>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取 消</button>
-                                <button type="button" class="btn btn-xs btn-green">保 存</button>
-                            </div>
-                        </div>
-                        <!-- /.modal-content -->
-                    </div>
-                    <!-- /.modal-dialog -->
-                </div>
-                <!-- /.modal -->
-
-                <!--弹出修改用户窗口-->
-                <div class="modal fade" id="reviseUser" role="dialog" aria-labelledby="gridSystemModalLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                        aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="gridSystemModalLabel">修改用户</h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="container-fluid">
-                                    <form class="form-horizontal">
                                         <div class="form-group ">
-                                            <label for="sName" class="col-xs-3 control-label">用户名：</label>
+                                            <label for="sName5" class="col-xs-3 control-label">密码：</label>
                                             <div class="col-xs-8 ">
-                                                <input type="email" class="form-control input-sm duiqi" id="sName"
+                                                <input v-model="user.password" type="password"
+                                                       class="form-control input-sm duiqi" id="sName5"
                                                        placeholder="">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="sLink" class="col-xs-3 control-label">真实姓名：</label>
-                                            <div class="col-xs-8 ">
-                                                <input type="" class="form-control input-sm duiqi" id="sLink"
-                                                       placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="sOrd" class="col-xs-3 control-label">电子邮箱：</label>
+                                            <label for="sOrd3" class="col-xs-3 control-label">邮箱：</label>
                                             <div class="col-xs-8">
-                                                <input type="" class="form-control input-sm duiqi" id="sOrd"
+                                                <input v-model="user.email" type="email"
+                                                       class="form-control input-sm duiqi" id="sOrd3"
                                                        placeholder="">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="sKnot" class="col-xs-3 control-label">电话：</label>
+                                            <label for="sOrd4" class="col-xs-3 control-label">出生日期：</label>
                                             <div class="col-xs-8">
-                                                <input type="" class="form-control input-sm duiqi" id="sKnot"
+                                                <input v-model="user.born" type="date"
+                                                       class="form-control input-sm duiqi" id="sOrd4"
                                                        placeholder="">
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="sKnot" class="col-xs-3 control-label">地区：</label>
-                                            <div class="col-xs-8">
-                                                <input type="" class="form-control input-sm duiqi" id="sKnot"
-                                                       placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="sKnot" class="col-xs-3 control-label">权限：</label>
-                                            <div class="col-xs-8">
-                                                <input type="" class="form-control input-sm duiqi" id="sKnot"
-                                                       placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="situation" class="col-xs-3 control-label">状态：</label>
-                                            <div class="col-xs-8">
-                                                <label class="control-label" for="anniu">
-                                                    <input type="radio" name="situation" id="normal">正常</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <label class="control-label" for="meun">
-                                                    <input type="radio" name="situation" id="forbid"> 禁用</label>
-                                            </div>
-                                        </div>
+
                                     </form>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取 消</button>
-                                <button type="button" class="btn btn-xs btn-green">保 存</button>
-                            </div>
-                        </div>
-                        <!-- /.modal-content -->
-                    </div>
-                    <!-- /.modal-dialog -->
-                </div>
-                <!-- /.modal -->
-
-                <!--弹出删除用户警告窗口-->
-                <div class="modal fade" id="deleteUser" role="dialog" aria-labelledby="gridSystemModalLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                        aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="gridSystemModalLabel">提示</h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="container-fluid">
-                                    确定要删除该用户？删除后不可恢复！
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取 消</button>
-                                <button type="button" class="btn  btn-xs btn-danger">保 存</button>
+                                <button @click="addTheUser()" type="button" class="btn btn-xs btn-green"
+                                        data-dismiss="modal">保 存
+                                </button>
                             </div>
                         </div>
                         <!-- /.modal-content -->
@@ -563,23 +438,23 @@
                 <div style="padding: 50px 0;margin-top: 50px;background-color: #fff; text-align: right;width: 420px;margin: 50px auto;">
                     <form class="form-horizontal">
                         <div class="form-group">
-                            <label for="sKnot" class="col-xs-4 control-label">原密码：</label>
+                            <label for="sKnot6" class="col-xs-4 control-label">原密码：</label>
                             <div class="col-xs-5">
-                                <input type="" class="form-control input-sm duiqi" id="sKnot" placeholder=""
+                                <input type="" class="form-control input-sm duiqi" id="sKnot6" placeholder=""
                                        style="margin-top: 7px;">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="sKnot" class="col-xs-4 control-label">新密码：</label>
+                            <label for="sKnot7" class="col-xs-4 control-label">新密码：</label>
                             <div class="col-xs-5">
-                                <input type="" class="form-control input-sm duiqi" id="sKnot" placeholder=""
+                                <input type="" class="form-control input-sm duiqi" id="sKnot7" placeholder=""
                                        style="margin-top: 7px;">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="sKnot" class="col-xs-4 control-label">重复密码：</label>
+                            <label for="sKnot8" class="col-xs-4 control-label">重复密码：</label>
                             <div class="col-xs-5">
-                                <input type="" class="form-control input-sm duiqi" id="sKnot" placeholder=""
+                                <input type="" class="form-control input-sm duiqi" id="sKnot8" placeholder=""
                                        style="margin-top: 7px;">
                             </div>
                         </div>
@@ -597,48 +472,252 @@
     </div>
 </div>
 
-<script src="./js/jquery.nouislider.js"></script>
-<script src="./js/jquery.min.js"></script>
-<script src="./js/bootstrap.min.js"></script>
 <script>
-    $(function () {
-        $(".meun-item").click(function () {
-            $(".meun-item").removeClass("meun-item-active");
-            $(this).addClass("meun-item-active");
-            var itmeObj = $(".meun-item").find("img");
-            itmeObj.each(function () {
-                var items = $(this).attr("src");
-                items = items.replace("_grey.png", ".png");
-                items = items.replace(".png", "_grey.png")
-                $(this).attr("src", items);
-            });
-            var attrObj = $(this).find("img").attr("src");
-            ;
-            attrObj = attrObj.replace("_grey.png", ".png");
-            $(this).find("img").attr("src", attrObj);
-        });
-        $("#topAD").click(function () {
-            $("#topA").toggleClass(" glyphicon-triangle-right");
-            $("#topA").toggleClass(" glyphicon-triangle-bottom");
-        });
-        $("#topBD").click(function () {
-            $("#topB").toggleClass(" glyphicon-triangle-right");
-            $("#topB").toggleClass(" glyphicon-triangle-bottom");
-        });
-        $("#topCD").click(function () {
-            $("#topC").toggleClass(" glyphicon-triangle-right");
-            $("#topC").toggleClass(" glyphicon-triangle-bottom");
-        });
-        $(".toggle-btn").click(function () {
-            $("#leftMeun").toggleClass("show");
-            $("#rightContent").toggleClass("pd0px");
-        })
-    })
-</script>
-<!--[if lt IE 9]>
-<script src="./js/html5shiv.min.js"></script>
-<script src="./js/respond.min.js"></script>
-<![endif]-->
-</body>
 
+    var Articles = new Vue({
+        el: "#articleList",
+        data: {
+            arr: [],
+        },
+        methods: {
+            updateId: function (articleId) {
+                UpdateArticle.publicId = articleId;
+            },
+            getArticles: function () {
+                var that = this;
+                axios({
+                    method: "post",
+                    url: "/article/getArticles",
+                }).then(function (response) {
+                    Articles.arr = response.data.data;
+                    console.log(Articles.arr);
+                })
+            },
+            deleteArticle: function (articleId) {
+                var that = this;
+                var deleteData = {"articleId": articleId};
+                axios({
+                    method: "post",
+                    url: "/article/deleteArticle",
+                    data: deleteData
+                }).then(function (response) {
+                    if (response.data.data = "1") {
+                        alert("删除成功！");
+                        Articles.getArticles();
+                    } else {
+                        alert("删除失败！");
+                    }
+                })
+            },
+        }
+    })
+
+    var AdminInfo = new Vue({
+        el: "#adminInfo",
+        data: {
+            adminName: "",
+            adminEmail: ""
+        },
+        methods: {
+            exitLogin: function () {
+                var that = this;
+                axios({
+                    method: "post",
+                    url: "/admin/exitLogin",
+                }).then(function (response) {
+                    window.location.href = "/admin/login";
+                })
+            },
+        },
+        mounted: function () {
+            document.getElementById('resource').click();
+            Articles.getArticles();
+            var that = this;
+            axios({
+                method: "post",
+                url: "/admin/adminInfo",
+            }).then(function (response) {
+                if (response.data.data == null) {
+                    window.location.href = "/admin/login";
+                } else {
+                    that.adminName = response.data.data.username;
+                    that.adminEmail = response.data.data.email;
+                }
+            })
+        }
+    });
+
+    var Resource = new Vue({
+        el: "#resource",
+        methods: {
+            getAllArticles: function () {
+                Articles.getArticles();
+            }
+        }
+    })
+
+    var AddArticles = new Vue({
+        el: "#addArticles",
+        data: {
+            article: {
+                title: "",
+                person: "",
+                content: ""
+            }
+        },
+        methods: {
+            addArticle: function () {
+
+                var that = this;
+
+                if (this.article.title == "" || this.article.person == "" || this.article.content == "") {
+                    alert("内容不能为空！");
+                    return;
+                }
+                axios({
+                    method: "post",
+                    url: "/article/addArticle",
+                    data: that.article
+                }).then(function (response) {
+                    if (response.data.data == "1") {
+                        alert("添加成功！");
+                        Articles.getArticles();
+                    } else {
+                        alert("添加失败！");
+                    }
+                });
+            },
+        }
+    })
+
+    var UpdateArticle = new Vue({
+        el: "#updateArticle",
+        data: {
+            publicId: "",
+            update: {
+                id: "",
+                title: "",
+                person: "",
+                content: ""
+            }
+        },
+        methods: {
+            updateTheArticle: function () {
+
+                if (this.update.title == "" || this.update.person == "" || this.update.content == "") {
+                    alert("内容不能为空！");
+                    return;
+                }
+
+                var that = this;
+                that.update.id = that.publicId;
+                axios({
+                    method: "post",
+                    url: "/article/updateArticle",
+                    data: that.update
+
+                }).then(function (response) {
+                    if (response.data.data = "1") {
+                        alert("更新成功！");
+                        Articles.getArticles();
+                    } else {
+                        alert("更新失败！");
+                    }
+                })
+            }
+        }
+
+    })
+
+    var ShowUsers = new Vue({
+        el: "#showUsers",
+        data: {
+            user: {
+                id: "",
+                username: "",
+                password: "",
+                email: "",
+                born: ""
+            },
+            arr: []
+        },
+        methods: {
+            getAllUser: function () {
+                var that = this;
+                axios({
+                    method: "post",
+                    url: "/user/getUsers",
+                }).then(function (response) {
+                    if (response.data.data == null) {
+                        console.log("获取用户失败！");
+                    } else {
+                        that.arr = response.data.data;
+                        console.log("获取用户成功！");
+                    }
+                });
+            },
+            deleteUser: function (userId) {
+                var deleteData = {"id": userId};
+                var that = this;
+                axios({
+                    method: "post",
+                    url: "/user/deleteUser",
+                    data: deleteData
+                }).then(function (response) {
+                    if (response.data.data == "1") {
+                        alert("删除用户成功！");
+                        ShowUsers.getAllUser();
+                    } else {
+                        alert("删除用户失败！");
+                    }
+                });
+            }
+        }
+    });
+
+    var UserControl = new Vue({
+        el: "#userControl",
+        methods: {
+            getAllUser: function () {
+                ShowUsers.getAllUser();
+            }
+        }
+    })
+
+    var AddUser = new Vue({
+        el: "#addUser",
+        data: {
+            user: {
+                username: "",
+                password: "",
+                email: "",
+                born: ""
+            }
+        },
+        methods: {
+            addTheUser: function () {
+                var that = this;
+                if (this.user.username == "" || this.user.password == "" || this.user.email == "" || this.user.born == "") {
+                    alert("内容不能为空！");
+                    return;
+                }
+                axios({
+                    method: "post",
+                    url: "/user/addUser",
+                    data: that.user
+                }).then(function (response) {
+                    if (response.data.data == "1") {
+                        alert("添加成功！");
+                        ShowUsers.getAllUser();
+                    } else {
+                        alert("添加失败！");
+                    }
+                });
+            }
+        }
+    })
+
+</script>
+
+</body>
 </html>

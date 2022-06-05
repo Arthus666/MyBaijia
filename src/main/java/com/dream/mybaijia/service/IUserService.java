@@ -3,6 +3,8 @@ package com.dream.mybaijia.service;
 import com.dream.mybaijia.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -19,5 +21,7 @@ public interface IUserService extends IService<User> {
      * @return
      */
     User queryUserByUsername(String user);
+
+    List<User> getUsers();
 
 }
