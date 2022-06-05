@@ -96,6 +96,7 @@
                 src="images/icon_change_grey.png">修改密码
         </div>
     </div>
+
     <!-- 右侧具体内容栏目 -->
     <div id="rightContent">
         <a class="toggle-btn" id="nimei">
@@ -103,6 +104,7 @@
         </a>
         <!-- Tab panes -->
         <div class="tab-content">
+
             <!-- 资源管理模块 -->
             <div role="tabpanel" class="tab-pane" id="char">
 
@@ -285,6 +287,7 @@
                 </div>
                 <!-- /.modal -->
             </div>
+
             <!--用户管理模块-->
             <div role="tabpanel" class="tab-pane" id="user">
                 <div class="check-div form-inline">
@@ -330,10 +333,13 @@
                                 {{users.bornTime}}
                             </div>
                             <div class="col-xs-2">
-                                <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#reviseUser">
+                                <button @click="updatePublic(users.id,users.username)" class="btn btn-success btn-xs"
+                                        data-toggle="modal"
+                                        data-target="#updateUser">
                                     修改
                                 </button>
-                                <button @click="deleteUser(users.id)" class="btn btn-danger btn-xs" data-toggle="modal">删除
+                                <button @click="deleteUser(users.id)" class="btn btn-danger btn-xs" data-toggle="modal">
+                                    删除
                                 </button>
                             </div>
                         </div>
@@ -429,45 +435,107 @@
                 </div>
                 <!-- /.modal -->
 
+                <!--弹出修改用户窗口-->
+                <div id="updateUser" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="gridSystemModalLabel6">修改用户</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <form class="form-horizontal">
+                                        <div class="form-group ">
+                                            <label for="sName7" class="col-xs-3 control-label">修改密码：</label>
+                                            <div class="col-xs-8 ">
+                                                <input v-model="user.password" type="password"
+                                                       class="form-control input-sm duiqi" id="sName7"
+                                                       placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sOrd7" class="col-xs-3 control-label">修改邮箱：</label>
+                                            <div class="col-xs-8">
+                                                <input v-model="user.email" type="email"
+                                                       class="form-control input-sm duiqi" id="sOrd7"
+                                                       placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sOrd8" class="col-xs-3 control-label">出生日期：</label>
+                                            <div class="col-xs-8">
+                                                <input v-model="user.born" type="date"
+                                                       class="form-control input-sm duiqi" id="sOrd8"
+                                                       placeholder="">
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取 消</button>
+                                <button @click="updateTheUser()" type="button" class="btn btn-xs btn-green"
+                                        data-dismiss="modal">保 存
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+
             </div>
+
             <!-- 修改密码模块 -->
             <div role="tabpanel" class="tab-pane" id="chan">
                 <div class="check-div">
                     敬这大争之世，敬这小酌之时
                 </div>
-                <div style="padding: 50px 0;margin-top: 50px;background-color: #fff; text-align: right;width: 420px;margin: 50px auto;">
+                <div id="updateAdmin"
+                     style="padding: 50px 0;margin-top: 50px;background-color: #fff; text-align: right;width: 420px;margin: 50px auto;">
                     <form class="form-horizontal">
                         <div class="form-group">
                             <label for="sKnot6" class="col-xs-4 control-label">原密码：</label>
                             <div class="col-xs-5">
-                                <input type="" class="form-control input-sm duiqi" id="sKnot6" placeholder=""
+                                <input v-model="theAdmin.oldPassword" type="" class="form-control input-sm duiqi"
+                                       id="sKnot6"
+                                       placeholder=""
                                        style="margin-top: 7px;">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="sKnot7" class="col-xs-4 control-label">新密码：</label>
                             <div class="col-xs-5">
-                                <input type="" class="form-control input-sm duiqi" id="sKnot7" placeholder=""
+                                <input v-model="theAdmin.newPassword" type="" class="form-control input-sm duiqi"
+                                       id="sKnot7"
+                                       placeholder=""
                                        style="margin-top: 7px;">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="sKnot8" class="col-xs-4 control-label">重复密码：</label>
                             <div class="col-xs-5">
-                                <input type="" class="form-control input-sm duiqi" id="sKnot8" placeholder=""
+                                <input v-model="theAdmin.confirmPassword" type="" class="form-control input-sm duiqi"
+                                       id="sKnot8"
+                                       placeholder=""
                                        style="margin-top: 7px;">
                             </div>
                         </div>
-                        <div class="form-group text-right">
-                            <div class="col-xs-offset-4 col-xs-5" style="margin-left: 169px;">
-                                <button type="reset" class="btn btn-xs btn-white">取 消</button>
-                                <button type="submit" class="btn btn-xs btn-green">保存</button>
-                            </div>
-                        </div>
                     </form>
+                    <div class="form-group">
+                        <div class="col-xs-offset-4 col-xs-5" style="margin-left: 169px;">
+                            <button type="reset" class="btn btn-xs btn-white">取 消</button>
+                            <button @click="updateTheAdmin()" class="btn btn-xs btn-green">保 存</button>
+                        </div>
+                    </div>
                 </div>
 
             </div>
+
         </div>
     </div>
 </div>
@@ -515,6 +583,7 @@
     var AdminInfo = new Vue({
         el: "#adminInfo",
         data: {
+            adminId: "",
             adminName: "",
             adminEmail: ""
         },
@@ -540,6 +609,7 @@
                 if (response.data.data == null) {
                     window.location.href = "/admin/login";
                 } else {
+                    that.adminId = response.data.data.id;
                     that.adminName = response.data.data.username;
                     that.adminEmail = response.data.data.email;
                 }
@@ -639,7 +709,9 @@
                 email: "",
                 born: ""
             },
-            arr: []
+            arr: [],
+            publicUpdate: "",
+            publicUsername: ""
         },
         methods: {
             getAllUser: function () {
@@ -671,6 +743,10 @@
                         alert("删除用户失败！");
                     }
                 });
+            },
+            updatePublic: function (updateId, updateUsername) {
+                ShowUsers.publicUpdate = updateId;
+                ShowUsers.publicUsername = updateUsername;
             }
         }
     });
@@ -692,7 +768,7 @@
                 password: "",
                 email: "",
                 born: ""
-            }
+            },
         },
         methods: {
             addTheUser: function () {
@@ -716,6 +792,83 @@
             }
         }
     })
+
+    var UpdateUser = new Vue({
+        el: "#updateUser",
+        data: {
+            user: {
+                id: "",
+                username: "",
+                password: "",
+                email: "",
+                born: ""
+            }
+        },
+        methods: {
+            updateTheUser: function () {
+
+                if (this.user.password == "" || this.user.email == "" || this.user.born == "") {
+                    alert("内容不能为空！");
+                    return;
+                }
+                this.user.id = ShowUsers.publicUpdate;
+                this.user.username = ShowUsers.publicUsername;
+
+                var that = this;
+
+                axios({
+                    method: "post",
+                    url: "/user/updateUser",
+                    data: that.user
+
+                }).then(function (response) {
+                    if (response.data.data = "1") {
+                        alert("更新成功！");
+                        ShowUsers.getAllUser();
+                    } else {
+                        alert("更新失败！");
+                    }
+                })
+            }
+        }
+    })
+
+    var UpdateAdmin = new Vue({
+        el: "#updateAdmin",
+        data: {
+            theAdmin: {
+                oldPassword: "",
+                newPassword: "",
+                confirmPassword: ""
+            }
+        },
+        methods: {
+            updateTheAdmin: function () {
+
+                if (this.theAdmin.oldPassword == "" || this.theAdmin.newPassword == "" || this.theAdmin.confirmPassword == "") {
+                    alert("内容不能为空！");
+                    return;
+                }
+
+                var that = this;
+
+                axios.post("/admin/updateAdmin",that.theAdmin).then(function (response) {
+
+                    if (response.data.data == "1") {
+                        alert("修改成功！");
+                    } else if (response.data.data == "-1") {
+                        alert("原密码错误！");
+                    } else if (response.data.data == "-2") {
+                        alert("确认密码不一致！");
+                    } else {
+                        alert("修改失败！");
+                    }
+                }).catch(function (error) {
+                    alert("修改出错！");
+                });
+            }
+        }
+    });
 
 </script>
 

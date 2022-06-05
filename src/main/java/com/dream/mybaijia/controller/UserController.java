@@ -119,4 +119,22 @@ public class UserController {
         return new JsonResult<>("1");
     }
 
+    @RequestMapping("/updateUser")
+    public JsonResult<String> updateUser(@RequestBody String jsonStr) {
+
+        JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+
+        String userId = jsonObject.getString("id");
+        String username = jsonObject.getString("username");
+        String password = jsonObject.getString("password");
+        String email = jsonObject.getString("email");
+        String born = jsonObject.getString("born");
+
+        int id = Integer.valueOf(userId);
+
+        userService.updateById(new User(id, username, password, email, born));
+
+        return new JsonResult<>("1");
+    }
+
 }
